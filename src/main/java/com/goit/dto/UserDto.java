@@ -1,10 +1,17 @@
 package com.goit.dto;
-//{
-//"id": 695102,
-//"name": "Fr. Dakshayani Khan",
-//"email": "fr_khan_dakshayani@ferry.name",
-//"gender": "female",
-//"status": "inactive"
-//}
+
+import com.goit.enums.Status;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class UserDto {
+    private Long id;
+    private String name;
+    private String email;
+    private String gender;
+    private Status status;
 }

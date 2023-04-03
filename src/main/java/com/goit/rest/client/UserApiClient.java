@@ -1,29 +1,33 @@
 package com.goit.rest.client;
 
 import com.goit.dto.UserDto;
-import okhttp3.OkHttpClient;
+import com.goit.rest.client.types.UserListType;
 import okhttp3.Request;
 
 import java.util.List;
 
-public class RestClientIml implements RestClient {
+public class UserApiClient extends RestClient<UserDto, List<UserDto>> {
+    private static final String USER_ENDPOINT = "/users";
 
-    private final OkHttpClient client = new OkHttpClient();
-    Request.Builder requestBuilder = new Request.Builder();
+    public UserApiClient(String baseUrl) {
+        super(baseUrl, UserDto.class, new UserListType());
+    }
 
-    @Override
-    public List<UserDto> get(String url) {
-        
-        return null;
+    public List<UserDto> get() {
+        Request.Builder request = createRequest(USER_ENDPOINT);
+        return executeAndGetList(request.build());
     }
 
     @Override
-    public UserDto post(String url) {
-        return null;
+    public UserDto post(UserDto user) {
+        Request request = createRequest(USER_ENDPOINT)
+                .post(createBody(user))
+                .build();
+        return execute(request);
     }
 
     @Override
     public void delete(Long id) {
-
+        //TODO: implementation
     }
 }

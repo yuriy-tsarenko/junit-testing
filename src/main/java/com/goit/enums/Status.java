@@ -1,2 +1,5 @@
-package com.goit.enums;public enum Satus {
+package com.goit.enums;
+
+public enum Status {
+    active, inactive
 }
