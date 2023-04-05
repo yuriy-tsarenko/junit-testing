@@ -5,18 +5,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
-import okhttp3.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class RestClient<T, R> {
-    protected final String baseUrl;
-    protected final Class<T> dtoType;
-    protected final TypeToken<R> dtoListType;
+    private final String baseUrl;
+    private final Class<T> dtoType;
+    private final TypeToken<R> dtoListType;
+    private static final int STATUS_OK = 200;
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    protected final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private final Request.Builder requestBuilder = new Request.Builder();
     private final Gson gson = new GsonBuilder()
             .serializeNulls()
@@ -44,7 +49,7 @@ public abstract class RestClient<T, R> {
 
     protected void executeVoid(Request request) {
         try (Response response = client.newCall(request).execute()) {
-            if (response.code() > 200) {
+            if (response.code() > STATUS_OK) {
                 throw new RestClientException();
             }
         } catch (Exception e) {

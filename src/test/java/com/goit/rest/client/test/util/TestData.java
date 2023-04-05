@@ -2,8 +2,6 @@ package com.goit.rest.client.test.util;
 
 import com.goit.dto.UserDto;
 import com.goit.enums.Status;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
