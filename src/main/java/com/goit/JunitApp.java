@@ -6,7 +6,7 @@ import com.goit.rest.client.UserApiClient;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class JunitApp {
     public static final String BASE_URL = "https://gorest.co.in/public/v2";
 
     public static void main(String[] args) {

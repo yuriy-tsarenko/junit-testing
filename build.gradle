@@ -1,7 +1,9 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'jacoco'
 }
+apply plugin: 'java'
 
 group = 'com.goit'
 version = '1.0-SNAPSHOT'
@@ -20,21 +22,53 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testCompileOnly 'org.projectlombok:lombok:1.18.26'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.goit.Main'
+        attributes 'Main-Class': 'com.goit.JunitApp'
     }
     from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
 }
-
-apply plugin: 'java'
 
 javadoc {
     source = sourceSets.main.allJava
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+//    reportsDirectory = layout.buildDirectory.dir('jacoco-report')
+}
+
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.4
+            }
+        }
+
+//        class line counter
+//        rule {
+//            element = 'CLASS'
+//            includes = ['com.goit.*']
+//
+//            limit {
+//                counter = 'LINE'
+//                value = 'TOTALCOUNT'
+//                maximum = 50
+//            }
+//        }
+    }
 }

@@ -7,7 +7,7 @@ import okhttp3.Request;
 import java.util.List;
 
 public class UserApiClient extends RestClient<UserDto, List<UserDto>> {
-    private static final String USER_ENDPOINT = "/users";
+    public static final String USER_ENDPOINT = "/users";
 
     public UserApiClient(String baseUrl) {
         super(baseUrl, UserDto.class, new UserListType());
@@ -28,6 +28,9 @@ public class UserApiClient extends RestClient<UserDto, List<UserDto>> {
 
     @Override
     public void delete(Long id) {
-        //TODO: implementation
+        Request request = createRequest(USER_ENDPOINT + "/" + id)
+                .delete()
+                .build();
+        executeVoid(request);
     }
 }

@@ -42,6 +42,16 @@ public abstract class RestClient<T, R> {
         }
     }
 
+    protected void executeVoid(Request request) {
+        try (Response response = client.newCall(request).execute()) {
+            if (response.code() > 200) {
+                throw new RestClientException();
+            }
+        } catch (Exception e) {
+            throw new RestClientException();
+        }
+    }
+
     protected R executeAndGetList(Request request) {
         try (Response response = client.newCall(request).execute()) {
             String json = response.body().string();
@@ -51,7 +61,7 @@ public abstract class RestClient<T, R> {
         }
     }
 
-    protected RequestBody createBody(T object){
+    protected RequestBody createBody(T object) {
         return RequestBody.create(gson.toJson(object), JSON);
     }
 }
